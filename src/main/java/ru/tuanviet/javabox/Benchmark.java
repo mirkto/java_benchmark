@@ -7,6 +7,5 @@ import java.lang.annotation.*;
 public @interface Benchmark {
 
     int repeats();
-
     int timeout();
 }
