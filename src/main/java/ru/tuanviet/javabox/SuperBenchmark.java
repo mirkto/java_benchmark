@@ -1,9 +1,10 @@
 package ru.tuanviet.javabox;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SuperBenchmark {
@@ -22,7 +23,15 @@ public class SuperBenchmark {
         for (Class<?> cl : classes) {
             for (Method m : cl.getMethods()) {
                 if (m.isAnnotationPresent(Benchmark.class)) {
-                     methods.add(m);
+                    methods.add(m);
+                    try {
+                        m.invoke(cl.getDeclaredConstructor().newInstance());
+                    } catch (IllegalAccessException |
+                            InvocationTargetException |
+                            InstantiationException |
+                            NoSuchMethodException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
