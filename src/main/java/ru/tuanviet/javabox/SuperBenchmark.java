@@ -1,6 +1,7 @@
 package ru.tuanviet.javabox;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SuperBenchmark {
@@ -13,21 +14,26 @@ public class SuperBenchmark {
             throw new IllegalArgumentException("Null parameter");
         }
 
+        List<Method> methods = new ArrayList<>();
         for (Class<?> cl : classes) {
-            //System.out.println("    class - " + cl.getSimpleName());
             for (Method m : cl.getMethods()) {
                 if (m.isAnnotationPresent(Benchmark.class)) {
-                    runBench(m);
-                } else {
-                    //System.out.println("net " + m.getName());
+                     methods.add(m);
                 }
             }
         }
+        if (methods.isEmpty()) {
+            System.out.println("Benchmark annotation - Not found");
+        } else {
+            runBench(methods);
+        }
     }
 
-    private void runBench(Method m) {
+    private void runBench(List<Method> methods) {
         System.out.println("Benchmark started at ");
-        System.out.println("da " + m.getName());
-        System.out.println(m.getParameterCount());
+        for (Method m : methods) {
+            System.out.println("da " + m.getName());
+            System.out.println(m.getParameterCount());
+        }
     }
 }

@@ -27,6 +27,14 @@ public class SuperBenchmarkTest {
     }
 
     @Test
+    public void shouldPrintNotFoundMessage() {
+        sutBench.benchmark(sutList);
+        String actual = outContent.toString();
+
+        assertThat(actual).startsWith("Benchmark annotation - Not found");
+    }
+
+    @Test
     public void shouldPrintStartingMessageWhenBenchmarkStart() {
         sutList.add(BenchMarks1.class);
         sutList.add(BenchMarks2.class);
@@ -35,4 +43,6 @@ public class SuperBenchmarkTest {
 
         assertThat(actual).startsWith("Benchmark started at ");
     }
+
+
 }
