@@ -1,7 +1,6 @@
 package ru.tuanviet.javabox;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SuperBenchmark {
@@ -15,14 +14,20 @@ public class SuperBenchmark {
         }
 
         for (Class<?> cl : classes) {
+            //System.out.println("    class - " + cl.getSimpleName());
             for (Method m : cl.getMethods()) {
                 if (m.isAnnotationPresent(Benchmark.class)) {
-                    System.out.println("da " + m.getName());
+                    runBench(m);
                 } else {
-                    System.out.println("net " + m.getName());
+                    //System.out.println("net " + m.getName());
                 }
             }
-
         }
+    }
+
+    private void runBench(Method m) {
+        System.out.println("Benchmark started at ");
+        System.out.println("da " + m.getName());
+        System.out.println(m.getParameterCount());
     }
 }
