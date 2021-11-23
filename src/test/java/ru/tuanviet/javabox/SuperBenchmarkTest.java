@@ -13,8 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SuperBenchmarkTest {
     List<Class<?>> sutList = new ArrayList<>();
     SuperBenchmark sutBench = new SuperBenchmark();
-    ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
     @Before
     public void setUpStreams() {
@@ -41,6 +41,7 @@ public class SuperBenchmarkTest {
         sutList.add(BenchMarks2.class);
         sutBench.benchmark(sutList);
         String actual = outContent.toString();
+
 
         assertThat(actual).startsWith("Benchmark started at ");
     }
