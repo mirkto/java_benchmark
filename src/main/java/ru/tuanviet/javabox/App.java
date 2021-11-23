@@ -16,14 +16,14 @@ public class App {
 }
 
 class BenchMarks1 {
-    @Benchmark(repeats=10_000, timeout=1_000)
+    @Benchmark(repeats = 10_000, timeout = 1_000)
     public void should_add_10000_numbers_in_1_second() {
         App.add(10, 15);
     }
 }
 
 class BenchMarks2 {
-    @Benchmark(repeats=10, timeout=100)
+    @Benchmark(repeats = 10, timeout = 100)
     public void should_add_10_numbers_in_100_milliseconds() {
         App.add(10, 15);
     }
