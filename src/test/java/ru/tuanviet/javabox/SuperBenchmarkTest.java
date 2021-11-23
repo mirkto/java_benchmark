@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SuperBenchmarkTest {
@@ -43,6 +44,4 @@ public class SuperBenchmarkTest {
 
         assertThat(actual).startsWith("Benchmark started at ");
     }
-
-
 }

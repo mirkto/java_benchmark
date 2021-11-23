@@ -1,10 +1,14 @@
 package ru.tuanviet.javabox;
 
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SuperBenchmark {
+
+    String startingTime;
 
     public SuperBenchmark() {
     }
@@ -30,7 +34,8 @@ public class SuperBenchmark {
     }
 
     private void runBench(List<Method> methods) {
-        System.out.println("Benchmark started at ");
+        startingTime = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSS").format(new Date());
+        System.out.println("Benchmark started at " + startingTime);
         for (Method m : methods) {
             System.out.println("da " + m.getName());
             System.out.println(m.getParameterCount());
