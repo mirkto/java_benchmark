@@ -10,22 +10,30 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SuperBenchmarkTest {
-    List<Class<?>> sutList = new ArrayList<>();
-    SuperBenchmark sutBench = new SuperBenchmark();
-
-    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     final PrintStream defaultSystemOut = System.out;
     final PrintStream defaultSystemErr = System.err;
+    List<Class<?>> sutList = new ArrayList<>();
+    SuperBenchmark sutBench = new SuperBenchmark();
+    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    ByteArrayOutputStream errContent = new ByteArrayOutputStream();
 
-    public void captureSystemOut() {
+    private void captureSystemOut() {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
     }
 
-    public void releaseSystemOut() {
+    private void releaseSystemOut() {
         System.setOut(defaultSystemOut);
         System.setErr(defaultSystemErr);
+    }
+
+    private String getLineByNumber(String output, int num) {
+        String[] lines = output.split("\n");
+
+        if (num > 0 && num <= lines.length) {
+            return lines[num - 1];
+        }
+        return null;
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -53,8 +61,12 @@ public class SuperBenchmarkTest {
         sutList.add(BenchMarks2.class);
 
         sutBench.benchmark(sutList);
-        String actual = outContent.toString();
 
-        assertThat(actual).startsWith("Benchmark started at ");
+        assertThat(getLineByNumber(outContent.toString(), 1)).startsWith("Benchmark started at ");
+    }
+
+    @Test
+    public void test() {
+
     }
 }
