@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -62,22 +63,56 @@ public class SuperBenchmarkTest {
 
         sutBench.benchmark(sutList);
 
-        assertThat(getLineByNumber(outContent.toString(), 1)).startsWith("Benchmark started at ");
+        String actual = getLineByNumber(outContent.toString(), 1);
+        assertThat(actual).startsWith("Benchmark started at ");
     }
 
     @Test
-    public void test() {
-
-    }
-
-    @Test
-    public void test() {
-
+    public void shouldSeparateEachTestWithNewLine() {
+        captureSystemOut();
         sutList.add(BenchMarks1.class);
         sutList.add(BenchMarks2.class);
 
         sutBench.benchmark(sutList);
-        String actual = outContent.toString();
-        System.out.println(actual);
+
+        String actual = getLineByNumber(outContent.toString(), 2);
+        assertThat(actual).isEmpty();
     }
+
+    @Test
+    public void shouldHaveMinimumExecutionTimeOn7thLine() {
+        captureSystemOut();
+        sutList.add(BenchMarks1.class);
+        sutList.add(BenchMarks2.class);
+
+        sutBench.benchmark(sutList);
+
+        String actual = getLineByNumber(outContent.toString(), 7);
+        assertThat(actual).startsWith("Min: ");
+    }
+
+    @Test
+    public void shouldHaveAverageExecutionTimeOn8thLine() {
+        captureSystemOut();
+        sutList.add(BenchMarks1.class);
+        sutList.add(BenchMarks2.class);
+
+        sutBench.benchmark(sutList);
+
+        String actual = getLineByNumber(outContent.toString(), 8);
+        assertThat(actual).startsWith("Avg: ");
+    }
+
+    @Test
+    public void shouldHaveMaximumExecutionTimeOn9thLine() {
+        captureSystemOut();
+        sutList.add(BenchMarks1.class);
+        sutList.add(BenchMarks2.class);
+
+        sutBench.benchmark(sutList);
+
+        String actual = getLineByNumber(outContent.toString(), 9);
+        assertThat(actual).startsWith("Max: ");
+    }
+
 }

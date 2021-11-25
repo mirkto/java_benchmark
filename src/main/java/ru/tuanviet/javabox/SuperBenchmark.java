@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class SuperBenchmark {
 
@@ -56,12 +57,41 @@ public class SuperBenchmark {
     }
 
     private String representMethodNameForTest(Method m) {
-        StringBuilder rename = new StringBuilder();
         String methodName = m.toString();
+        String result;
 
-        for (String w : methodName.split("(?<!(^|[A-Z]))(?=[A-Z]) | (?<!^)(?=[A-Z][a-z])")) {
+        if (methodName.contains("_")) {
+            result =  convertSnakeCaseToString(methodName);
+        } else {
+            result =  convertCamelCaseToString(methodName);
+        }
+        return capitalizeStringAndRemoveShouldWord(result);
+    }
+
+    private String capitalizeStringAndRemoveShouldWord(String result) {
+        if (result.startsWith("should")) {
+            result = result.substring(7);
+        }
+
+        return Character.toUpperCase(result.charAt(0)) + result.substring(1);
+    }
+
+    private String convertCamelCaseToString(String methodName) {
+        StringBuilder rename = new StringBuilder();
+        for (String w : methodName.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])")) {
+
             rename.append(w).append(" ");
         }
-        return rename.toString().trim();
+        return rename.toString().toLowerCase(Locale.ROOT).trim();
+    }
+
+    private String convertSnakeCaseToString(String methodName) {
+        StringBuilder result = new StringBuilder();
+
+        for (String word : methodName.toLowerCase(Locale.ROOT).split("_")) {
+            result.append(word).append(" ");
+        }
+
+        return result.toString().trim();
     }
 }
