@@ -6,11 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class SuperBenchmark {
     String startingTime;
+    List<BenchTest> tests;
+
     public SuperBenchmark() {
+        tests = new ArrayList<>();
     }
 
     public void benchmark(List<Class<?>> classes) {
@@ -46,14 +48,7 @@ public class SuperBenchmark {
         System.out.println("Benchmark started at " + startingTime);
 
         for (Method m : methods) {
-            UUID testId = UUID.randomUUID();
-            System.out.println("[Test " + testId + "PASSED/FILED" + "]");
-
-            System.out.println("da " + m.getName());
+            tests.add(new BenchTest(m));
         }
-    }
-
-    private void runMethod(Method m) {
-
     }
 }
