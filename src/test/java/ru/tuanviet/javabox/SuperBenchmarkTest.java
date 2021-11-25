@@ -1,6 +1,5 @@
 package ru.tuanviet.javabox;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -13,13 +12,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SuperBenchmarkTest {
     List<Class<?>> sutList = new ArrayList<>();
     SuperBenchmark sutBench = new SuperBenchmark();
-    ByteArrayOutputStream errContent = new ByteArrayOutputStream();
-    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
-    @Before
-    public void setUpStreams() {
+    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    ByteArrayOutputStream errContent = new ByteArrayOutputStream();
+    final PrintStream defaultSystemOut = System.out;
+    final PrintStream defaultSystemErr = System.err;
+
+    public void captureSystemOut() {
         System.setOut(new PrintStream(outContent));
         System.setErr(new PrintStream(errContent));
+    }
+
+    public void releaseSystemOut() {
+        System.setOut(defaultSystemOut);
+        System.setErr(defaultSystemErr);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -29,6 +35,11 @@ public class SuperBenchmarkTest {
 
     @Test
     public void shouldPrintNotFoundMessage() {
+        captureSystemOut();
+        sutList.add(App.class);
+        sutList.add(Object.class);
+        sutList.add(String.class);
+
         sutBench.benchmark(sutList);
         String actual = outContent.toString();
 
@@ -37,12 +48,13 @@ public class SuperBenchmarkTest {
 
     @Test
     public void shouldPrintStartingMessageWhenBenchmarkStart() {
+        captureSystemOut();
         sutList.add(BenchMarks1.class);
         sutList.add(BenchMarks2.class);
+
         sutBench.benchmark(sutList);
         String actual = outContent.toString();
 
-        System.err.println(actual);
         assertThat(actual).startsWith("Benchmark started at ");
     }
 }

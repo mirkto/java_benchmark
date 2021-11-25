@@ -10,7 +10,6 @@ import java.util.List;
 public class SuperBenchmark {
 
     String startingTime;
-
     public SuperBenchmark() {
     }
 
@@ -49,5 +48,9 @@ public class SuperBenchmark {
             System.out.println("da " + m.getName());
             System.out.println(m.getParameterCount());
         }
+    }
+
+    private void runMethod(Method m) {
+
     }
 }
