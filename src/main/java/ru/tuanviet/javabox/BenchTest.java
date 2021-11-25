@@ -30,7 +30,8 @@ public class BenchTest {
         this.m = m;
         cond = false;
         countOfRepeat = 0;
-        min = avg = max = -1;
+        min = max = -1;
+        avg = 0;
         testName = representMethodNameForTest(m);
         startBench();
         printResult();
@@ -43,8 +44,8 @@ public class BenchTest {
         }
         repeats = ann.repeats();
         timeout = ann.timeout();
-        long timeToStartTest = System.currentTimeMillis();
-        for (; countOfRepeat < repeats; ++countOfRepeat) {
+//        long timeToStartTest = System.currentTimeMillis();
+        while (countOfRepeat < repeats) {
             long timeToStartRepeat = System.currentTimeMillis();
             try {
                 m.invoke(cl.getDeclaredConstructor().newInstance());
@@ -54,15 +55,16 @@ public class BenchTest {
                     NoSuchMethodException e) {
                 e.printStackTrace();
             }
+            ++countOfRepeat;
             long time = System.currentTimeMillis() - timeToStartRepeat;
             min = min == -1 ? time : Math.min(min, time);
             max = max == -1 ? time : Math.max(max, time);
-
+            avg += time;
             if(time > timeout) {
                 break;
             }
         }
-//        avg =
+        avg = Math.round((double) avg / (countOfRepeat == 0 ? 1 : countOfRepeat));
         if(countOfRepeat == repeats) {
             cond = true;
         }

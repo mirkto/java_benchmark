@@ -131,7 +131,7 @@ public class SuperBenchmarkTest {
         sutBench.benchmark(sutList);
 
         String actual = getLineByNumber(outContent.toString(), 4);
-        assertThat(actual).isEqualTo("> Add 10 numbers in 100 milliseconds");
+        assertThat(actual).isEqualTo("> Add 50 numbers in 10 milliseconds");
     }
 
     @Test
@@ -192,4 +192,13 @@ public class SuperBenchmarkTest {
         assertThat(actual).startsWith("Max: ");
     }
 
+    @Test
+    public void test() {
+        sutList.add(BenchMarks1.class);
+        sutList.add(BenchMarks2.class);
+        sutList.add(BenchMarks3.class);
+        sutList.add(BenchMarks4.class);
+
+        sutBench.benchmark(sutList);
+    }
 }

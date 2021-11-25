@@ -34,14 +34,23 @@ class BenchMarks2 {
     @Benchmark(repeats = 10, timeout = 100)
     public void should_add_10_numbers_in_100_milliseconds() {
         int sum = App.add(10, 15);
+        App.sleep(1);
     }
 }
 
 class BenchMarks3 {
-    @Benchmark(repeats = 20000, timeout = 10)
-    public void shouldAdd10NumbersIn100Milliseconds() {
+    @Benchmark(repeats = 50, timeout = 10)
+    public void shouldAdd50NumbersIn10Milliseconds() {
         int sum = App.add(10, 15);
         App.sleep(7);
+    }
+}
+
+class BenchMarks4 {
+    @Benchmark(repeats = 10, timeout = 10)
+    public void shouldAdd10NumbersIn10Milliseconds() {
+        int sum = App.add(10, 15);
+        App.sleep(9);
     }
 }
 
