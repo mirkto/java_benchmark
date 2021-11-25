@@ -10,7 +10,6 @@ import java.util.UUID;
 
 public class SuperBenchmark {
     String startingTime;
-
     public SuperBenchmark() {
     }
 
@@ -52,5 +51,9 @@ public class SuperBenchmark {
 
             System.out.println("da " + m.getName());
         }
+    }
+
+    private void runMethod(Method m) {
+
     }
 }
