@@ -8,19 +8,29 @@ import java.util.UUID;
 public class BenchTest {
     private final String testName;
     private final UUID id;
-    private final Class cl;
+    private final Class<?> cl;
     private final Method m;
-    private Boolean con;
-    int count;
+    private Boolean cond;
+    int countOfRepeat;
     int repeats;
-    int timeout;
+    long timeout;
+    long min;
+    long avg;
+    long max;
 
-    public BenchTest(Class cl, Method m) {
+    public BenchTest(Class<?> cl, Method m) {
         id = UUID.randomUUID();
+        if (cl == null) {
+            throw new IllegalArgumentException("Null first arg");
+        }
         this.cl = cl;
+        if (m == null) {
+            throw new IllegalArgumentException("Null second arg");
+        }
         this.m = m;
-        con = false;
-        count = 0;
+        cond = false;
+        countOfRepeat = 0;
+        min = avg = max = -1;
         testName = representMethodNameForTest(m);
         startBench();
         printResult();
@@ -28,34 +38,44 @@ public class BenchTest {
 
     private void startBench() {
         Benchmark ann = m.getAnnotation(Benchmark.class);
-        if(ann != null) {
-            repeats = ann.repeats();
-            timeout = ann.timeout();
-            for (; count < repeats; ++count) {
-                try {
-                    m.invoke(cl.getDeclaredConstructor().newInstance());
-                } catch (IllegalAccessException |
-                        InvocationTargetException |
-                        InstantiationException |
-                        NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
+        if(ann == null) {
+            throw new IllegalArgumentException("Method without required annotation");
+        }
+        repeats = ann.repeats();
+        timeout = ann.timeout();
+        long timeToStartTest = System.currentTimeMillis();
+        for (; countOfRepeat < repeats; ++countOfRepeat) {
+            long timeToStartRepeat = System.currentTimeMillis();
+            try {
+                m.invoke(cl.getDeclaredConstructor().newInstance());
+            } catch (IllegalAccessException |
+                    InvocationTargetException |
+                    InstantiationException |
+                    NoSuchMethodException e) {
+                e.printStackTrace();
             }
-            if(count == repeats) {
-                con = true;
+            long time = System.currentTimeMillis() - timeToStartRepeat;
+            min = min == -1 ? time : Math.min(min, time);
+            max = max == -1 ? time : Math.max(max, time);
+
+            if(time > timeout) {
+                break;
             }
         }
-
+//        avg =
+        if(countOfRepeat == repeats) {
+            cond = true;
+        }
     }
 
     public void printResult() {
-        System.out.println("\n[Test " + id + (con ? " PASSED" : " FAILED") + "]");
+        System.out.println("\n[Test " + id + (cond ? " PASSED" : " FAILED") + "]");
         System.out.println("> " + testName);
-        System.out.println("Repeats: " + count + "/" + repeats);
+        System.out.println("Repeats: " + countOfRepeat + "/" + repeats);
         System.out.println("Timeout: " + timeout + "ms");
-        System.out.println("Min: " + 0 + "ms");
-        System.out.println("Avg: " + 0 + "ms");
-        System.out.println("Max: " + 0 + "ms");
+        System.out.println("Min: " + min + "ms");
+        System.out.println("Avg: " + avg + "ms");
+        System.out.println("Max: " + max + "ms");
     }
 
     private String representMethodNameForTest(Method m) {
@@ -74,7 +94,6 @@ public class BenchTest {
         if (result.startsWith("should")) {
             result = result.substring(7);
         }
-
         return Character.toUpperCase(result.charAt(0)) + result.substring(1);
     }
 

@@ -13,27 +13,35 @@ public class App {
         return x + y;
     }
 
+    public static void sleep(int i) {
+        try {
+            Thread.sleep(i);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 class BenchMarks1 {
     @Benchmark(repeats = 10_000, timeout = 1_000)
     public void should_add_10000_numbers_in_1_second() {
-        App.add(10, 15);
+        int sum = App.add(10, 15);
     }
 }
 
 class BenchMarks2 {
     @Benchmark(repeats = 10, timeout = 100)
     public void should_add_10_numbers_in_100_milliseconds() {
-        App.add(10, 15);
-
+        int sum = App.add(10, 15);
     }
 }
 
 class BenchMarks3 {
-    @Benchmark(repeats = 100, timeout = 500)
+    @Benchmark(repeats = 20000, timeout = 10)
     public void shouldAdd10NumbersIn100Milliseconds() {
-        App.add(10, 15);
+        int sum = App.add(10, 15);
+        App.sleep(7);
     }
 }
 
