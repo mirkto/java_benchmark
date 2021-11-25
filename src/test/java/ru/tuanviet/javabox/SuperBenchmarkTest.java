@@ -57,4 +57,15 @@ public class SuperBenchmarkTest {
 
         assertThat(actual).startsWith("Benchmark started at ");
     }
+
+    @Test
+    public void test() {
+
+        sutList.add(BenchMarks1.class);
+        sutList.add(BenchMarks2.class);
+
+        sutBench.benchmark(sutList);
+        String actual = outContent.toString();
+        System.out.println(actual);
+    }
 }

@@ -1,5 +1,6 @@
 package ru.tuanviet.javabox;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.UUID;
 
@@ -17,11 +18,20 @@ public class BenchTest {
     }
 
     public void startBench() {
-        System.out.println("da " + m.getName());
+        System.out.println("\n - " + m.getName());
+
+        Benchmark ann = m.getAnnotation(Benchmark.class);
+        if(ann != null) {
+            int repeats = ann.repeats();
+            int timeout = ann.timeout();
+            String outPut = "-- repeats = " + repeats + " timeout = " + timeout;
+            System.out.println(outPut);
+        }
+
     }
 
     public void printResult() {
-        String outPut = "[Test " + id + (con ? "PASSED" : "FAILED") + "]";
+        String outPut = "[Test " + id + (con ? " PASSED" : " FAILED") + "]";
         System.out.println(outPut);
     }
 
