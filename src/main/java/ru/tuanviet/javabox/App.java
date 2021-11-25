@@ -26,8 +26,17 @@ class BenchMarks2 {
     @Benchmark(repeats = 10, timeout = 100)
     public void should_add_10_numbers_in_100_milliseconds() {
         App.add(10, 15);
+
     }
 }
+
+class BenchMarks3 {
+    @Benchmark(repeats = 100, timeout = 500)
+    public void shouldAdd10NumbersIn100Milliseconds() {
+        App.add(10, 15);
+    }
+}
+
 
 // -- OUTPUT ------------------------------------------------
 // Benchmark started at 2021.11.07 14:34:17.456

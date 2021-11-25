@@ -115,4 +115,12 @@ public class SuperBenchmarkTest {
         assertThat(actual).startsWith("Max: ");
     }
 
+    @Test
+    public void test() {
+        sutList.add(BenchMarks1.class);
+        sutList.add(BenchMarks2.class);
+        sutList.add(BenchMarks3.class);
+
+        sutBench.benchmark(sutList);
+    }
 }
