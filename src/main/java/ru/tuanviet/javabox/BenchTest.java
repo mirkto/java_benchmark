@@ -99,9 +99,9 @@ public class BenchTest {
 
     private String convertCamelCaseToString(String methodName) {
         StringBuilder rename = new StringBuilder();
-        for (String w : methodName.split("(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])")) {
+        for (String word : methodName.split("(?<!(^|[A-Z0-9]))(?=[A-Z0-9])|(?<!(^|[^A-Z]))(?=[0-9])|(?<!(^|[^0-9]))(?=[A-Za-z])|(?<!^)(?=[A-Z][a-z])")) {
 
-            rename.append(w).append(" ");
+            rename.append(word).append(" ");
         }
         return rename.toString().toLowerCase(Locale.ROOT).trim();
     }

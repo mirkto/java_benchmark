@@ -78,6 +78,84 @@ public class SuperBenchmarkTest {
         assertThat(actual).isEmpty();
     }
 
+
+    @Test
+    public void shouldFindAndBenchThreeMethods() {
+        captureSystemOut();
+        sutList.add(BenchMarks1.class);
+        sutList.add(BenchMarks2.class);
+        sutList.add(BenchMarks3.class);
+
+        sutBench.benchmark(sutList);
+        String output = outContent.toString();
+        int newLines = 0;
+        int i = 1;
+        String line = getLineByNumber(output, i);
+        while (line != null) {
+            if (line.isEmpty()) {
+                newLines++;
+            }
+            line = getLineByNumber(output, ++i);
+        }
+
+        assertThat(newLines).isEqualTo(3);
+    }
+
+    @Test
+    public void shouldHaveTestNameOn4thLine() {
+        captureSystemOut();
+        sutList.add(BenchMarks1.class);
+
+        sutBench.benchmark(sutList);
+
+        String actual = getLineByNumber(outContent.toString(), 4);
+        assertThat(actual).startsWith("> ");
+    }
+
+    @Test
+    public void shouldConvertSnakeCaseToMethodName() {
+        captureSystemOut();
+        sutList.add(BenchMarks1.class);
+
+        sutBench.benchmark(sutList);
+
+        String actual = getLineByNumber(outContent.toString(), 4);
+        assertThat(actual).isEqualTo("> Add 10000 numbers in 1 second");
+    }
+
+    @Test
+    public void shouldConvertCamelCaseToMethodName() {
+        captureSystemOut();
+        sutList.add(BenchMarks3.class);
+
+        sutBench.benchmark(sutList);
+
+        String actual = getLineByNumber(outContent.toString(), 4);
+        assertThat(actual).isEqualTo("> Add 10 numbers in 100 milliseconds");
+    }
+
+    @Test
+    public void shouldHaveRepeatsParameterOn5thLine() {
+        captureSystemOut();
+        sutList.add(BenchMarks3.class);
+
+        sutBench.benchmark(sutList);
+
+        String actual = getLineByNumber(outContent.toString(), 5);
+        assertThat(actual).startsWith("Repeats: ");
+    }
+
+    @Test
+    public void shouldHaveTimeoutParameterOn6thLine() {
+        captureSystemOut();
+        sutList.add(BenchMarks3.class);
+
+        sutBench.benchmark(sutList);
+
+        String actual = getLineByNumber(outContent.toString(), 6);
+        assertThat(actual).startsWith("Timeout: ");
+    }
+
     @Test
     public void shouldHaveMinimumExecutionTimeOn7thLine() {
         captureSystemOut();
@@ -114,12 +192,4 @@ public class SuperBenchmarkTest {
         assertThat(actual).startsWith("Max: ");
     }
 
-    @Test
-    public void test() {
-        sutList.add(BenchMarks1.class);
-        sutList.add(BenchMarks2.class);
-        sutList.add(BenchMarks3.class);
-
-        sutBench.benchmark(sutList);
-    }
 }
