@@ -191,14 +191,4 @@ public class SuperBenchmarkTest {
         String actual = getLineByNumber(outContent.toString(), 9);
         assertThat(actual).startsWith("Max: ");
     }
-
-    @Test
-    public void testForWork() {
-        sutList.add(BenchMarks1.class);
-        sutList.add(BenchMarks2.class);
-        sutList.add(BenchMarks3.class);
-        sutList.add(BenchMarks4.class);
-
-        sutBench.benchmark(sutList);
-    }
 }

@@ -90,9 +90,9 @@ public class BenchTest {
         String regexCamelCase = "([a-z]+[A-Z]+\\w+)+";
 
         if (Pattern.compile(regexSnakeCase).matcher(m.getName()).matches()) {
-            result = m.getName().replace("_", " ");
+            result = m.getName().replace("_", " ").toLowerCase(Locale.ROOT);
         } else if (Pattern.compile(regexCamelCase).matcher(m.getName()).matches()) {
-            result = splitCamelCase(result);
+            result = splitCamelCase(result).toLowerCase(Locale.ROOT);
         }
         return capitalizeStringAndRemoveShouldWord(result);
     }
