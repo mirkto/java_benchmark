@@ -193,7 +193,7 @@ public class SuperBenchmarkTest {
     }
 
     @Test
-    public void test() {
+    public void testForWork() {
         sutList.add(BenchMarks1.class);
         sutList.add(BenchMarks2.class);
         sutList.add(BenchMarks3.class);

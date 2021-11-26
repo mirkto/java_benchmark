@@ -5,7 +5,8 @@ import java.util.Arrays;
 public class App {
     public static void main(String... args) {
         new SuperBenchmark().benchmark(
-                Arrays.asList(BenchMarks1.class, BenchMarks2.class)
+                Arrays.asList(BenchMarks1.class, BenchMarks2.class,
+                        BenchMarks3.class, BenchMarks4.class)
         );
     }
 
