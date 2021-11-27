@@ -35,7 +35,7 @@ public class SuperBenchmark {
     }
 
     private void runBench(List<SimpleEntry<Class<?>, Method>> methods) {
-        startingTime = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSS").format(new Date());
+         startingTime = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss.SSS").format(new Date());
         System.out.println("Benchmark started at " + startingTime);
         for (SimpleEntry<Class<?>, Method> pair : methods) {
             tests.add(new BenchTest(pair.getKey(), pair.getValue()));
