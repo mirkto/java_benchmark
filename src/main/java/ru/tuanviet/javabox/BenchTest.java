@@ -102,7 +102,6 @@ public class BenchTest {
     private String convertCamelCaseToString(String methodName) {
         StringBuilder rename = new StringBuilder();
         for (String word : methodName.split("(?<!(^|[A-Z0-9]))(?=[A-Z0-9])|(?<!(^|[^A-Z]))(?=[0-9])|(?<!(^|[^0-9]))(?=[A-Za-z])|(?<!^)(?=[A-Z][a-z])")) {
-
             rename.append(word).append(" ");
         }
         return rename.toString().toLowerCase(Locale.ROOT).trim();
@@ -110,12 +109,11 @@ public class BenchTest {
 
     private String convertSnakeCaseToString(String methodName) {
         StringBuilder result = new StringBuilder();
-
         for (String word : methodName.toLowerCase(Locale.ROOT).split("_")) {
             result.append(word).append(" ");
         }
-
         return result.toString().trim();
+//        return methodName.toLowerCase(Locale.ROOT).replace("_"," ");
     }
 
 }
